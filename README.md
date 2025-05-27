@@ -7,7 +7,8 @@ This Django microservice powers the image segmentation and processing. A Nvidia 
 ## How to run the AgentIQ framework
 
 1. Install the Agent Intelligence Toolkit locally, in another directory
-2. Return to this directory and run `aiq run --config_file agentiq.yaml --input "Identify current breakthroughs and the state of research for pancreatic ductal adenocarcinoma. Then, refer to Nvidia technology for medical breakthroughs, such as MONAI."`
+2. Create and export `NVIDIA_API_KEY`.
+3. Return to this directory and run `aiq run --config_file agentiq.yaml --input "Identify current breakthroughs and the state of research for pancreatic ductal adenocarcinoma. Then, refer to Nvidia technology for medical breakthroughs, such as MONAI."`
 
 ## Sample Output
 
