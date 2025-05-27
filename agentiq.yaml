@@ -1,0 +1,51 @@
+functions:
+  wikipedia_search:
+    _type: wiki_search
+    max_results: 5
+  research_paper_query:
+    _type: webpage_query
+    webpage_url: https://catalog.ngc.nvidia.com/orgs/nvidia/teams/monaitoolkit/models/monai_pancreas_ct_dints_segmentation
+    description: "Query the MONAI Toolkit webpage for pancreas CT DINTS segmentation model details."
+    embedder_name: nv-embedqa-e5-v5
+    chunk_size: 512
+  current_datetime:
+    _type: current_datetime
+
+llms:
+  nim_llm:
+    _type: nim
+    model_name: meta/llama-3.1-70b-instruct
+    temperature: 0.2
+
+embedders:
+  nv-embedqa-e5-v5:
+    _type: nim
+    model_name: nvidia/nv-embedqa-e5-v5
+
+workflow:
+  _type: react_agent
+  tool_names: [wikipedia_search, research_paper_query, current_datetime]
+  llm_name: nim_llm
+  verbose: true
+  retry_parsing_errors: true
+  max_retries: 3
+
+eval:
+  general:
+    output_dir: ./.tmp/aiq/examples/react_agent/
+    dataset:
+      _type: json
+      file_path: examples/agents/data/wikipedia.json
+  evaluators:
+    rag_accuracy:
+      _type: ragas
+      metric: AnswerAccuracy
+      llm_name: nim_llm
+    rag_groundedness:
+      _type: ragas
+      metric: ContextRelevance
+      llm_name: nim_llm
+    rag_relevance:
+      _type: ragas
+      metric: ResponseGroundedness
+      llm_name: nim_llm
